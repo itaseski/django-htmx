@@ -25,13 +25,14 @@ SECRET_KEY = 'django-insecure-x7r$f4wsldsjoro$n80p#w(8$mceak2su)z*w@*5j)s#v_sw2b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
     "django_htmx",
+    "adamchainz.apps.AdamchainzConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
