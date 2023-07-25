@@ -17,11 +17,10 @@
     <meta name="htmx-config" content='{"historyCacheSize": 15}'>
 
 
-    <script src="{% static 'js/htmx/htmx.min.js' %}" defer></script>
-    <script src="{% static 'js/htmx/htmx.js' %}" defer></script>
-    <script src="{% static 'htmx.js' %}" defer></script>
-    <script src="{% static 'js/htmx/ext/debug.js' %}" defer></script>
-    <script src="{% static 'js/htmx/ext/event-header.js' %}" defer></script>
+    <script src="{% static 'js/htmx.min.js' %}" defer></script>
+    <script src="{% static 'js/django-htmx/htmx.js' %}" defer></script>
+    <script src="{% static 'js/ext/debug.js' %}" defer></script>
+    <script src="{% static 'js/ext/event-header.js' %}" defer></script>
 
     <!-- Enable htmx extensions for all requests: 
         * debug: https://htmx.org/extensions/debug/
@@ -51,6 +50,9 @@
                 </li>
                 <li>
                     <a href="/partial-rendering/">Partial Rendering</a>
+                </li>
+                <li>
+                    <a href="/favicon.ico">Favicon</a>
                 </li>
             </ul>
         </nav>

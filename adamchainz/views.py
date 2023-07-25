@@ -24,7 +24,7 @@ class HtmxHttpRequest(HttpRequest):
 
 @require_GET
 def index(request: HtmxHttpRequest) -> HttpResponse:
-    return render(request, "index.html")
+    return render(request, "adamchainz/index.html")
 
 
 @require_GET
@@ -44,7 +44,7 @@ def favicon(request: HtmxHttpRequest) -> HttpResponse:
 
 @require_GET
 def csrf_demo(request: HtmxHttpRequest) -> HttpResponse:
-    return render(request, "csrf-demo.html")
+    return render(request, "adamchainz/csrf-demo.html")
 
 
 @require_POST
@@ -57,7 +57,7 @@ def csrf_demo_checker(request: HtmxHttpRequest) -> HttpResponse:
         number_is_odd = False
     return render(
         request,
-        "csrf-demo-checker.html",
+        "adamchainz/csrf-demo-checker.html",
         {"form": form, "number_is_odd": number_is_odd},
     )
 
@@ -67,13 +67,13 @@ def csrf_demo_checker(request: HtmxHttpRequest) -> HttpResponse:
 
 @require_GET
 def error_demo(request: HtmxHttpRequest) -> HttpResponse:
-    return render(request, "error-demo.html")
+    return render(request, "adamchainz/error-demo.html")
 
 
 @require_GET
 def error_demo_trigger(request: HtmxHttpRequest) -> HttpResponse:
     1 / 0
-    return render(request, "error-demo.html")  # unreachable
+    return render(request, "adamchainz/error-demo.html")  # unreachable
 
 
 # Middleware tester
@@ -84,14 +84,14 @@ def error_demo_trigger(request: HtmxHttpRequest) -> HttpResponse:
 
 @require_GET
 def middleware_tester(request: HtmxHttpRequest) -> HttpResponse:
-    return render(request, "middleware-tester.html")
+    return render(request, "adamchainz/middleware-tester.html")
 
 
 @require_http_methods(["DELETE", "POST", "PUT"])
 def middleware_tester_table(request: HtmxHttpRequest) -> HttpResponse:
     return render(
         request,
-        "middleware-tester-table.html",
+        "adamchainz/middleware-tester-table.html",
         {"timestamp": time.time()},
     )
 
@@ -123,13 +123,13 @@ def partial_rendering(request: HtmxHttpRequest) -> HttpResponse:
     # requests, allowing us to skip rendering the unchanging parts of the
     # template.
     if request.htmx:
-        base_template = "_partial.html"
+        base_template = "adamchainz/_partial.html"
     else:
-        base_template = "_base.html"
+        base_template = "adamchainz/_base.html"
 
     return render(
         request,
-        "partial-rendering.html",
+        "adamchainz/partial-rendering.html",
         {
             "base_template": base_template,
             "page": page,
