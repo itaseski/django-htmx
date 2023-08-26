@@ -34,13 +34,13 @@
     <header>
         <nav>
             <h1>
-                <a href="/">
+                <a href="/adam">
                     django-htmx example app
                 </a>
             </h1>
             <ul>
                 <li>
-                    <a href="/csrf-demo/">CSRF Demo</a>
+                    <a href="{% url 'adamchainz:csrf-demo' %}">CSRF Demo</a>
                 </li>
                 <li>
                     <a href="/error-demo/">Error Demo</a>
@@ -50,9 +50,6 @@
                 </li>
                 <li>
                     <a href="/partial-rendering/">Partial Rendering</a>
-                </li>
-                <li>
-                    <a href="/favicon.ico">Favicon</a>
                 </li>
             </ul>
         </nav>

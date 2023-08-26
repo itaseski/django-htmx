@@ -1,13 +1,36 @@
-{% extends "adamchainz/_base.html" %}
+{% extends "_base.html" %}
+{% load static %}
 
-{% block main %}
-<section>
-    <p>
-        This form shows you how to implement CSRF with htmx, using <a
-            href="https://dev.htmx.org/attributes/hx-headers/"> the <code>hx-headers</code> attribute</a>.
+{% block title %}<title>django-htmx example app</title>{% endblock %}
+
+{% block content %}
+
+<div class="mb-9">
+    <div class="row g-3 mb-4">
+        <div class="col-auto">
+            <h2 class="mb-0">django-htmx example app</h2>
+        </div>
+        <ul class="nav nav-links mb-3 mb-lg-2 mx-n3">
+            <li class="nav-item"><a class="nav-link active" aria-current="page"
+                    href="{% url 'adamchainz:csrf-demo' %}"><span>CSRF Demo </span><span
+                        class="text-700 fw-semi-bold">(68817)</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><span>Error Demo </span><span
+                        class="text-700 fw-semi-bold">(70348)</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><span>Middleware Tester </span><span
+                        class="text-700 fw-semi-bold">(17)</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><span>Partial Rendering </span><span
+                        class="text-700 fw-semi-bold">(810)</span></a></li>
+        </ul>
+    </div>
+</div>
+
+<main id="main">
+    <p class="mb-0 mt-2 text-800">
+        This form shows you how to implement CSRF with htmx, using
+        <a href="https://dev.htmx.org/attributes/hx-headers/" target="_blank"> the <code>hx-headers</code>
+            attribute</a>.
     </p>
-</section>
-<section>
+
     <!--
       Note you can place the hx-headers attribute on your <body> tag so it
       affects all requests, reducing repetition.
@@ -28,8 +51,21 @@
         </button>
         </p>
     </form>
-</section>
-<section>
     <p id="result"><em>Awaiting interaction...</em></p>
-</section>
+</main>
+<!-- extra scripts -->
+{% block script %}
+<script src="{% static 'js/htmx.min.js' %}" defer></script>
+<script src="{% static 'js/django-htmx/htmx.js' %}" defer></script>
+<script src="{% static 'js/ext/debug.js' %}" defer></script>
+<script src="{% static 'js/ext/event-header.js' %}" defer></script>
+
+<!-- Enable htmx extensions for all requests: 
+        * debug: https://htmx.org/extensions/debug/
+        * event-header: https://htmx.org/extensions/event-header/
+    -->
+
+ 
+{% endblock%}
+
 {% endblock %}

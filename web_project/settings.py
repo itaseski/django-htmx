@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    "bugbytes.apps.BugbytesConfig",
     "django_htmx",
     "adamchainz.apps.AdamchainzConfig",
     'django.contrib.admin',
@@ -39,6 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+]
+
+INSTALLED_APPS += [
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

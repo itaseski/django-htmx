@@ -1,0 +1,60 @@
+{% extends "adamchainz/_bb_base.html" %}
+
+{% block main %}
+
+    <!-- BugBites -->
+    <h1>Bug Bytes Home</h1>
+    <h3>hx Attributes</h3>
+    <ul>
+        <li><a href="{% url 'adamchainz:bb-index' %}">Django standard url</a></li>
+        <li><a hx-get="{% url 'adamchainz:bb-index' %}">hx-get attribute</a></li>
+        <li><a id="htmx-link" hx-get="{% url 'adamchainz:bb-index' %}" hx-target="#swap-content">hx-get with hx-target
+            attributed</a><br>
+            <p id="swap-content"></p>
+        </li>
+        <li><a id="htmx-link2" href="{% url 'adamchainz:bb-index' %}" hx-boost="true" hx-target="#htmx-content">boost
+            normal anchor with hx-boost attribute</a><br>
+            <p id="htmx-content"></p>
+        </li>
+    </ul>
+    <h3>HTTP Response classes</h3>
+    <p><code>class django_htmx.http.HttpResponseClientRedirect(redirect_to: str, *args: Any, **kwargs: Any)</code>
+        <a id="htmx-link3" href="{% url 'adamchainz:bb-client-redirect' %}" hx-boost="true">example</a></p>
+    <p><code>class django_htmx.http.HttpResponseClientRefresh</code>
+        <a id="htmx-link4" href="{% url 'adamchainz:bb-client-refresh' %}" hx-boost="true">example</a></p>
+    <p><code>class django_htmx.http.HttpResponseLocation(redirect_to: str, *args: Any, source: str | None = None, event:
+        str | None = None, target: str | None = None, swap: Literal['innerHTML', 'outerHTML', 'beforebegin',
+        'afterbegin', 'beforeend', 'afterend', 'delete', 'none', None] = None, values: dict[str, str] | None = None,
+        headers: dict[str, str] | None = None, **kwargs: Any)</code>
+        <a id="htmx-link5" href="{% url 'adamchainz:bb-client-location' %}" hx-boost="true">example</a></p>
+    <div id="success-content"></div>
+    <div
+            hx-trigger="every 2s"
+            hx-target="#success-content"
+            hx-get="{% url 'adamchainz:bb-success' %}"
+            hx-swap="beforeend"><code>class django_htmx.http.HttpResponseStopPolling(*args: Any, **kwargs: Any</code>
+        -Stop polling example
+    </div>
+    <h3>Response modifying functions</h3>
+    <h4>push_url()</h4>
+    <p><code>django_htmx.http.push_url(response: _HttpResponse, url: str | Literal[False]) → _HttpResponse</code>
+    </p>
+    <a id="htmx-link6" href="{% url 'adamchainz:bb-response-modyfying-functions' %}" hx-boost="true"
+       hx-target="#htmx-content2" hx-push-url="/myURL/">example 1</a>
+    <a id="htmx-link6" href="{% url 'adamchainz:bb-poll-url' %}" hx-boost="true"
+       hx-target="#htmx-content2" hx-push-url="/myURL/">example 2</a>
+    <div id="htmx-content2"></div>
+    <h4>reswap()</h4>
+    <p><code>django_htmx.http.reswap(response: _HttpResponse, method: Literal['innerHTML', 'outerHTML', 'beforebegin',
+        'afterbegin', 'beforeend', 'afterend', 'delete', 'none']) → _HttpResponse</code></p>
+    <a id="htmx-link7" href="{% url 'adamchainz:bb-reswap' %}" hx-boost="true"
+       hx-target="#htmx-content3" >example</a>
+    <ul id="htmx-content3"></ul>
+    <h4>retarget()</h4>
+    <p><code>django_htmx.http.retarget(response: _HttpResponse, target: str) → _HttpResponse</code></p>
+    <a id="htmx-link8" href="{% url 'adamchainz:bb-retarget' %}" hx-boost="true"
+       hx-target="#htmx-content4" >example</a>
+    <ul id="htmx-content4"></ul>
+    <div id="page-context">{% include 'adamchainz/form.html' %}</div>
+
+{% endblock %}

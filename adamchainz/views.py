@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import time
+import random
 from dataclasses import dataclass
 
 from django.core.paginator import Paginator
@@ -8,11 +9,11 @@ from django.http import HttpRequest
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
-from django.views.decorators.http import require_http_methods
 from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods
+from django_htmx.middleware import HtmxDetails
 from faker import Faker
 
-from django_htmx.middleware import HtmxDetails
 from .forms import OddNumberForm
 
 
@@ -31,9 +32,9 @@ def index(request: HtmxHttpRequest) -> HttpResponse:
 def favicon(request: HtmxHttpRequest) -> HttpResponse:
     return HttpResponse(
         (
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
-            + '<text y=".9em" font-size="90">🦊</text>'
-            + "</svg>"
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
+                + '<text y=".9em" font-size="90">🦊</text>'
+                + "</svg>"
         ),
         content_type="image/svg+xml",
     )
@@ -135,3 +136,97 @@ def partial_rendering(request: HtmxHttpRequest) -> HttpResponse:
             "page": page,
         },
     )
+
+
+# Bud Bytes
+# source https://www.youtube.com/watch?v=to1exRe7Z8E&ab_channel=BugBytes
+def bb_index(request):
+    print(request.htmx)
+    print('Target of the swap:', request.htmx.target)
+    print('Trigger of the request:', request.htmx.trigger)
+    print('Boosted:', request.htmx.boosted)
+    # __bool__ method allow us to use htmx object in if statement so Django new is it htmx request or not
+    if request.htmx:
+        print('HTMX Request :)')
+        return render(request, "adamchainz/_bb_partial.html")
+    else:
+        print('Not HTMX Request :(')
+        return render(request, "adamchainz/bb_index.html")
+
+
+from django_htmx.http import HttpResponseClientRedirect
+
+
+def bb_client_redirect(request):
+    if request.htmx:
+        return HttpResponseClientRedirect("/admin/")
+
+
+from django_htmx.http import HttpResponseClientRefresh
+
+
+def bb_client_refresh(request):
+    if request.htmx:
+        print('Trigger of the refresh request:', request.htmx.trigger)
+        return HttpResponseClientRefresh()
+    else:
+        print('Not HTMX Request :(')
+        return render(request, "adamchainz/bb_index.html")
+
+
+from django_htmx.http import HttpResponseLocation, HttpResponseStopPolling
+
+
+def bb_client_location(request):
+    if request.htmx:
+        print('Trigger of the location request:', request.htmx.trigger)
+        return HttpResponseLocation("/bb-success/", target="#success-content")
+    else:
+        print('Not HTMX Request :(')
+        return render(request, "adamchainz/bb_index.html")
+
+
+def bb_success(request):
+    if random.random() < 0.35:
+        print('Polling terminating ...')
+        return HttpResponseStopPolling()
+    return HttpResponse('Congratulation - what ever you have doing worked!')
+
+
+def bb_response_modyfying_functions(request: HtmxHttpRequest) -> HttpResponse:
+    if request.htmx:
+        return render(request, "adamchainz/_bb_push_url_in_browser_history.html")
+    else:
+        return render(request, "adamchainz/bb_index.html")
+
+
+from django_htmx.http import push_url, reswap
+
+
+def bb_push_url(request: HtmxHttpRequest) -> HttpResponse:
+    if request.htmx:
+        response = render(request, "adamchainz/_bb_push_url_in_browser_history.html")
+        return push_url(response, "/myURL/")
+    else:
+        return render(request, "adamchainz/bb_index.html")
+
+
+def bb_reswap(request: HtmxHttpRequest) -> HttpResponse:
+    if request.htmx:
+        response = render(request, "adamchainz/_bb_partial_li.html")
+        return reswap(response, 'beforeend')
+    else:
+        return render(request, "adamchainz/bb_index.html")
+
+
+from .forms import FilmForm
+
+
+def bb_retarget(request):
+    if request.htmx:
+        form = FilmForm(request.GET)
+        if form.is_valid():
+            return HttpResponse("Successfully submitted form! ")
+    else:
+        context = {'form': FilmForm()}
+        return render(request, "adamchainz/bb_index.html", context)
